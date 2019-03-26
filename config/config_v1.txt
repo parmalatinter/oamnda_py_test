@@ -1,0 +1,5 @@
+[oanda]
+account_id = xxxxxxxxxxxx
+api_key = xxxxxxxxxxxxxxxxxxxxxx
+instruments = TRY_JPY
+environment = practice
