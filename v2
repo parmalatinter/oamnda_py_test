@@ -1,0 +1,37 @@
+import json
+from oandapyV20 import API
+from oandapyV20.endpoints.pricing import PricingInfo
+from oandapyV20.exceptions import V20Error
+from oandapyV20.endpoints import accounts
+
+# API接続設定のファイルを読み込む
+import configparser
+ 
+# 設定
+config = configparser.ConfigParser()
+config.read('./config/config_v1.txt') # パスの指定が必要です
+account_id = config['oanda']['account_id']
+access_token = config['oanda']['api_key']
+instruments = config['oanda']['instruments']
+environment = config['oanda']['environment']
+
+api = API(access_token=access_token, environment="practice")
+
+params = {"instruments": "USD_JPY"}
+pricing_info = PricingInfo(accountID=account_id, params=params)
+
+try:
+    api.request(pricing_info)
+    print(json.dumps(pricing_info.response, indent=4))  # 出力値を見やすく整形
+
+except V20Error as e:
+    print("Error: {}".format(e))
+
+account_info = accounts.AccountList()
+
+try:
+	api.request(account_info)
+	print(json.dumps(account_info.response, indent=4))  # 出力値を見やすく整形
+
+except V20Error as e:
+    print("Error: {}".format(e))
